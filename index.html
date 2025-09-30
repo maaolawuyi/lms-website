@@ -1,10 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>LMS Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Cloud & DevOps Journey</title>
+    <style>
+        /* Reset some default styles */
+        body, h1, h2, h3, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background: #1e3a8a;
+            color: white;
+            border-radius: 0 0 8px 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the LMS Website</h1>
-    <p>This is a simple static site deployed with AWS S3, EC2, Jenkins, and GitHub.</p>
+
+    <header>
+        <h1>My Cloud & DevOps Journey</h1>
+        <p>Learning, Building, and Deploying with AWS, Jenkins, and GitHub</p>
+    </header>
+
+    <div class="container">
+        <h2>About Me</h2>
+        <p><strong>Name:</strong> Mojeed Olawuyi</p>
+        <p><strong>Role:</strong> Cloud and DevOps Engineering Student</p>
+        <p><strong>Project:</strong> CI/CD Deployment of LMS Website on AWS</p>
+    </div>
+
+    <div class="container">
+        <h2>What I Have Learned</h2>
+        <ul>
+            <li>Version Control with Git & GitHub</li>
+            <li>Continuous Integration with Jenkins</li>
+            <li>Containerization using Docker</li>
+            <li>Orchestration with Kubernetes</li>
+            <li>Infrastructure as Code with Terraform</li>
+            <li>Cloud Services with AWS (EC2, S3, IAM, etc.)</li>
+            <li>Automation and CI/CD Pipelines</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>Project Purpose</h2>
+        <p>
+            This project demonstrates how to deploy a static LMS website on AWS using 
+            GitHub for version control, Jenkins for CI/CD automation, EC2 for hosting Jenkins, 
+            and S3 for static website hosting.
+        </p>
+    </div>
+
+    <footer>
+        <p>© 2025 My Cloud & DevOps Journey</p>
+    </footer>
+
 </body>
 </html>
