@@ -4,77 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMS - Cloud & DevOps Journey</title>
-    <style>
-        /* Reset some default styles */
-        body, h1, h2, h3, p, ul {
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        header {
-            background: #1e3a8a;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.2em;
-        }
-
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            color: #1e3a8a;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #1e3a8a;
-            padding-bottom: 5px;
-        }
-
-        ul {
-            margin-top: 10px;
-            margin-left: 20px;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 15px;
-            background: #1e3a8a;
-            color: white;
-            border-radius: 0 0 8px 8px;
-        }
-    </style>
+    <!-- Link external CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <h1>My Cloud & DevOps Journey</h1>
         <p>Learning, Building, and Deploying with AWS, Jenkins, and GitHub</p>
+        <!-- Navigation Bar -->
+        <nav>
+            <ul class="navbar">
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#learnings">My Learnings</a></li>
+                <li><a href="#project">Project Purpose</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <div class="container">
+    <div id="about" class="container">
         <h2>About Me</h2>
-        <p><strong>Name:</strong> Mojeed Olawuyi</p>
+        <p><strong>Name:</strong> [Your Name Here]</p>
         <p><strong>Role:</strong> Cloud and DevOps Engineering Student</p>
         <p><strong>Project:</strong> CI/CD Deployment of LMS Website on AWS</p>
     </div>
 
-    <div class="container">
+    <div id="learnings" class="container">
         <h2>What I Have Learned</h2>
         <ul>
             <li>Version Control with Git & GitHub</li>
@@ -87,13 +43,20 @@
         </ul>
     </div>
 
-    <div class="container">
+    <div id="project" class="container">
         <h2>Project Purpose</h2>
         <p>
             This project demonstrates how to deploy a static LMS website on AWS using 
             GitHub for version control, Jenkins for CI/CD automation, EC2 for hosting Jenkins, 
             and S3 for static website hosting.
         </p>
+    </div>
+
+    <div id="contact" class="container">
+        <h2>Contact</h2>
+        <p>Email: [your-email@example.com]</p>
+        <p>GitHub: <a href="https://github.com/your-username" target="_blank">github.com/your-username</a></p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/your-profile" target="_blank">linkedin.com/in/your-profile</a></p>
     </div>
 
     <footer>
