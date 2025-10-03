@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    triggers {
+        // 👇 This makes Jenkins run whenever GitHub sends a webhook push event
+        githubPush()
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -8,12 +12,13 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'No build needed for static site'
+                echo 'No build needed for static website'
             }
         }
-        stage('Test') {
+        stage('Deploy to S3') {
             steps {
-                echo 'Testing pipeline setup...'
+                // 👇 Deploy everything in the repo to your S3 bucket
+                sh 'aws s3 sync . s3://lms-website-project --delete'
             }
         }
     }
