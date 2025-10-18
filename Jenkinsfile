@@ -33,18 +33,19 @@ pipeline {
     }
 
     stage('Deploy to S3') {
-      environment {
-        // Jenkins credentials binding should inject these variables
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-      }
       steps {
-        echo "Deploying to S3 bucket ${env.S3_BUCKET}"
-        sh '''
-          export AWS_DEFAULT_REGION=${AWS_REGION}
-          aws s3 sync site/ s3://${S3_BUCKET}/ --delete
-        '''
-      }
+        withCredentials([usernamePassword(credentialsId: 'aws-credentials,
+                      usernameVariable: 'AWS_ACCESS_KEY_ID',
+                      passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+      sh '''
+        set -e
+        export AWS_DEFAULT_REGION=us-east-1
+        echo "Using AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:0:6}******"
+        aws sts get-caller-identity   # optional sanity check
+        aws s3 sync site/ s3://maaolawuyi-lms-website --delete
+      '''
+     }
+    } 
     }
   }
   post {
