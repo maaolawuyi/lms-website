@@ -1,63 +1,91 @@
 pipeline {
   agent any
+
   environment {
-    S3_BUCKET = 'maaolawuyi-lms-website'        // change to your bucket
-    AWS_REGION = 'us-east-1'
+    S3_BUCKET = 'maaolawuyi-lms-website'     // your bucket name
+    AWS_REGION = 'us-east-1'                 // change if different
   }
+
   options {
     timestamps()
     buildDiscarder(logRotator(numToKeepStr: '10'))
   }
+
   stages {
     stage('Checkout') {
       steps {
+        echo "Checking out source code from GitHub..."
         checkout scm
       }
     }
 
     stage('Validate') {
       steps {
-        echo "Validating site files..."
-        sh 'ls -la site'
-        // placeholder for basic checks
-        sh 'test -f site/index.html || (echo "index.html missing" && false)'
+        echo "Validating website files..."
+        sh '''
+          ls -la
+          test -f index.html || (echo "index.html missing" && exit 1)
+        '''
       }
     }
 
-    stage('Test (lint)') {
+    stage('Build/Test') {
       steps {
         echo "Running simple HTML check..."
-        // simple check: file contains <html> tag
-        sh "grep -i '<html' site/index.html || echo 'No html tag found'"
+        sh '''
+          grep -i "<html" index.html || (echo "HTML tag missing" && exit 1)
+        '''
       }
     }
 
     stage('Deploy to S3') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'aws-credentials,
-                      usernameVariable: 'AWS_ACCESS_KEY_ID',
-                      passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-      sh '''
-        set -e
-        export AWS_DEFAULT_REGION=us-east-1
-        echo "Using AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:0:6}******"
-        aws sts get-caller-identity   # optional sanity check
-        aws s3 sync site/ s3://maaolawuyi-lms-website --delete
-      '''
-     }
-    } 
+        withCredentials([usernamePassword(credentialsId: 'aws-credentials',
+                          usernameVariable: 'AWS_ACCESS_KEY_ID',
+                          passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+          sh '''
+            set -e
+            echo "Deploying to S3 bucket: $S3_BUCKET in region $AWS_REGION"
+            export AWS_DEFAULT_REGION=$AWS_REGION
+            aws sts get-caller-identity
+            aws s3 sync . s3://$S3_BUCKET --delete
+          '''
+        }
+      }
+    }
+
+    stage('Smoke Test') {
+      steps {
+        echo "Running Smoke Test..."
+        sh '''
+          set -e
+          URL="http://maaolawuyi-lms-website.s3-website-us-east-1.amazonaws.com/index.html"
+          echo "Testing $URL"
+          STATUS=$(curl -s -o /tmp/test.html -w "%{http_code}" "$URL")
+          if [ "$STATUS" != "200" ]; then
+            echo "Smoke test failed: HTTP $STATUS"
+            exit 1
+          fi
+          grep -q 'Welcome' /tmp/test.html || echo "Content verification: passed"
+        '''
+      }
     }
   }
+
   post {
     success {
-      echo 'Pipeline succeeded'
-      // notify via email or slack plugin, see setup below
+      echo "✅ Build and Deployment Successful!"
+      emailext subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+               body: "Build succeeded!\nJob URL: ${env.BUILD_URL}",
+               to: "maaolawuyi@gmail.com"
     }
     failure {
-      echo 'Pipeline failed'
+      echo "❌ Build Failed!"
+      emailext subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+               body: "Build failed!\nJob URL: ${env.BUILD_URL}",
+               to: "maaolawuyi@gmail.com"
     }
     always {
-      echo "Cleaning workspace"
       cleanWs()
     }
   }
